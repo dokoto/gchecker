@@ -1,6 +1,6 @@
 {
   "name": "gchecker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Comnmprueba si hay correos nuevos en cuentas de gmail por consola",
   "bin": {
     "gchecker": "bin/gchecker.js"

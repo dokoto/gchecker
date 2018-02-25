@@ -17,7 +17,8 @@ const CLI = require('clui');
 /*
  * CONSTANTES
  */
-const configPath = path.join(os.homedir(), '.gc/gcrc.json');
+const configFilePath = '.gchecker/gcheckerrc.json';
+const configPath = path.join(os.homedir(), configFilePath);
 const defaultRequestOptions = {
   method: 'get',
   url: 'https://mail.google.com/mail/u/0/feed/atom',
@@ -84,7 +85,7 @@ function gmailReasponseHandler(response) {
 function configReaderHandler(err, data) {
   if (err) {
     throw new Error(
-      'Se necesita un fichero tipo json en "~/.gc/gcrc.json" con { "dokoto": { "username": "khkj", "password" }, "otraCuentaDeGmail": {} }',
+      `Se necesita un fichero tipo json en "${configFilePath}" con { "dokoto": { "username": "khkj", "password" }, "otraCuentaDeGmail": {} }`,
     );
   }
 

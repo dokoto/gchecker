@@ -11,3 +11,6 @@ $> npm install https://github.com/dokoto/gchecker/tarball/v0.0.1
 ```
 $> gchecker
 ```
+
+## Capturas
+<p align="center"><img src="https://github.com/dokoto/gchecker/raw/master/assets/screen1.png" width="400" /></p>

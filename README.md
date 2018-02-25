@@ -13,4 +13,4 @@ $> gchecker
 ```
 
 ## Capturas
-<p align="center"><img src="https://github.com/dokoto/gchecker/raw/master/assets/screen1.png" width="400" /></p>
+<p align="center"><img src="https://github.com/dokoto/gchecker/raw/master/assets/screen1.png" width="800" /></p>

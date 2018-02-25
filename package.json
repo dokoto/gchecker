@@ -1,0 +1,26 @@
+{
+  "name": "gchecker",
+  "version": "0.0.1",
+  "description": "Comnmprueba si hay correos nuevos en cuentas de gmail por consola",
+  "bin": {
+    "gchecker": "bin/gchecker.js"
+  },
+  "main": "./bin/gchecker.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "chalk": "^2.3.1",
+    "clui": "^0.3.6",
+    "fs": "0.0.1-security",
+    "inquirer": "^5.1.0",
+    "moment": "^2.20.1",
+    "xml-query": "^1.4.0",
+    "xml-reader": "^2.4.3",
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dokoto.moloko@gmail.com",
+  "license": "ISC"
+}

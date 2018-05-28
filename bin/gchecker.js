@@ -85,7 +85,7 @@ function gmailReasponseHandler(response) {
 function configReaderHandler(err, data) {
   if (err) {
     throw new Error(
-      `Se necesita un fichero tipo json en "${configFilePath}" con { "dokoto": { "username": "khkj", "password" }, "otraCuentaDeGmail": {} }`,
+      `Se necesita un fichero tipo json en "${configFilePath}" con { "dokoto": { "username": "khkj", "password": "kñlkñl" }, "otraCuentaDeGmail": {} }`,
     );
   }
 

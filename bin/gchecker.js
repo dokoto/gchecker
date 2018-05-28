@@ -13,6 +13,8 @@ const readline = require('readline');
 const chalk = require('chalk');
 const moment = require('moment');
 const CLI = require('clui');
+const { exec } = require('child_process');
+const Params = require('../lib/params');
 
 /*
  * CONSTANTES
@@ -23,6 +25,13 @@ const defaultRequestOptions = {
   method: 'get',
   url: 'https://mail.google.com/mail/u/0/feed/atom',
 };
+const outputBuffer = new CLI.LineBuffer({
+  x: 0,
+  y: 0,
+  width: 'console',
+  height: 'console'
+});
+const consoleWidth = outputBuffer.width();
 
 moment.locale('es');
 
@@ -41,10 +50,11 @@ function renderMessages(node) {
     .find('issued')
     .text();
   const dateFormat = moment(date).format('dddd DD MMMM YYYY, H:mm:ss');
+  
   new CLI.Line()
-    .column(chalk.redBright(dateFormat), 40)
-    .column(chalk.greenBright(email), 40)
-    .column(chalk.redBright(title), 30)
+    .column(chalk.redBright(dateFormat), 35)
+    .column(chalk.greenBright(email), 35)
+    .column(chalk.blueBright(title), consoleWidth - 70)
     .fill()
     .output();
 }
@@ -85,7 +95,7 @@ function gmailReasponseHandler(response) {
 function configReaderHandler(err, data) {
   if (err) {
     throw new Error(
-      `Se necesita un fichero tipo json en "${configFilePath}" con { "dokoto": { "username": "khkj", "password": "kñlkñl" }, "otraCuentaDeGmail": {} }`,
+      `Se necesita un fichero tipo json en "${configFilePath}" con { "dokoto": { "username": "khkj", "password": "kñlkñl", "cmd": "sdlakl" }, "otraCuentaDeGmail": {} }`,
     );
   }
 
@@ -98,7 +108,7 @@ function configReaderHandler(err, data) {
       choices: Object.keys(auth),
     },
   ];
-  inquirer.prompt(questions).then(responseQuestionsHandler.bind(this, auth));
+  inquirer.prompt(questions).then(responseQuestionsCheckerHandler.bind(this, auth));
 }
 
 /**
@@ -106,7 +116,7 @@ function configReaderHandler(err, data) {
  * @param {object} auth
  * @param {object} answers
  */
-function responseQuestionsHandler(auth, answers) {
+function responseQuestionsCheckerHandler(auth, answers) {
   const requestOptions = {
     ...defaultRequestOptions,
     auth: auth[answers.gmailAccount],
@@ -119,11 +129,55 @@ function responseQuestionsHandler(auth, answers) {
     });
 }
 
+/**
+ *
+ * @param {object} auth
+ * @param {object} answers
+ */
+function responseQuestionsOpenerHandler(auth, answers) {  
+  exec(auth[answers.gmailAccount].cmd, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }    
+  });
+}
+
+/**
+ * Open Gmail account
+ * @param {object} err
+ * @param {json-string} data
+ */
+function configOpenerHandler(err, data) {
+  if (err) {
+    throw new Error(
+      `Se necesita un fichero tipo json en "${configFilePath}" con { "dokoto": { "username": "khkj", "password": "kñlkñl", "cmd": "sdlakl" }, "otraCuentaDeGmail": {} }`,
+    );
+  }
+
+  const auth = JSON.parse(data);
+  const questions = [
+    {
+      type: 'list',
+      name: 'gmailAccount',
+      message: 'Selection la cuenta de Gmail que quieres abrir:',
+      choices: Object.keys(auth),
+    },
+  ];
+  inquirer.prompt(questions).then(responseQuestionsOpenerHandler.bind(this, auth));
+}
+
 /*
  * MAIN SECTION
  */
 try {
-  fs.readFile(configPath, 'utf8', configReaderHandler);
+  let callBack = null;
+  if (Params.mode.includes('check')) {    
+    callBack = configReaderHandler;
+  } else if (Params.mode.includes('open')) {
+    callBack = configOpenerHandler;
+  }
+  fs.readFile(configPath, 'utf8', callBack);
 } catch (err) {
   console.error(err);
 }

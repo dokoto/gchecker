@@ -10,15 +10,19 @@ $> touch ~/.gchecker/gcheckerrc.json
 ```
 
 2º Editamos el fichero y metemos algo asi:
+* Donde "cmd" sera el comando usado para abrir el navegador con la cuenta de correo asociada. Para que funcione bien con Chrome, lo suyo
+es tener asociadas las cuentas en nuestro navegador[Añadir cuenta de Gmail] para que se puedam abrir por numero(mail/u/0)
 ```
 {
   "Cuenta1": {
     "username": "usuario",
-    "password": "pasword123"
+    "password": "pasword123",
+    "cmd": "google-chrome-stable --app=https://mail.google.com/mail/u/0/#inbox --new-window &"
   },
   "Cuenta2": {
     "username": "usuario",
-    "password": "pasword123"
+    "password": "pasword123",
+    "cmd": "google-chrome-stable --app=https://mail.google.com/mail/u/1/#inbox --new-window &"
   }
 }
 ```
@@ -31,7 +35,11 @@ $> npm install gchecker -g
 
 2º Como Ejecurarla
 ```
-$> gchecker
+$> gchecker [options]
+# Para ver los correos en la consola
+$> gchecker -m check
+# Para abrir el navegador en Gmail con la cuenta asociada
+$> gchecker -m open
 ```
 
 ## Capturas
